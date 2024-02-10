@@ -1,4 +1,6 @@
-ydata_profiling==4.6.3
-streamlit_ydata_profiling==0.2.1
-streamlit==1.29.0
+streamlit==1.30.0
 pandas==2.0.3
+numpy==1.23.5
+ydata_profiling==4.6.4
+streamlit_ydata_profiling==0.2.1
+autogluon==1.0.0
