@@ -47,12 +47,16 @@ def main():
         else:
             # 获取列名
             columns = list(df_concat.columns)
+            columns.insert(0, '全部')
             columns.insert(0, '无')
             # 创建下拉选择框
             column = st.selectbox('选择去重列:', columns)
             if column != '无':
-                # 按照去重列对df_concat进行去重
-                df_concat = df_concat.drop_duplicates(subset=[column], keep='first', ignore_index=True)
+                if column == '全部':
+                    df_concat = df_concat.drop_duplicates(ignore_index=True)
+                else:
+                    # 按照去重列对df_concat进行去重
+                    df_concat = df_concat.drop_duplicates(subset=[column], keep='first', ignore_index=True)
             
             now = datetime.datetime.now()
             now_str = now.strftime('%Y%m%d%H%M%S')
