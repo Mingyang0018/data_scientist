@@ -3,4 +3,4 @@ pandas==2.0.3
 numpy==1.23.5
 ydata_profiling==4.6.4
 streamlit_ydata_profiling==0.2.1
-autogluon==1.0.0
+autogluon.tabular
