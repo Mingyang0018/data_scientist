@@ -12,7 +12,7 @@ def main():
     st.set_page_config(layout="wide")
 
     # 设置标题
-    st.title('数据科学家', help='这是一个数据科学家工具, 可以用于数据合并、分析和机器学习。')
+    st.title('数据科学家', help='这是一个数据科学家工具, 用于数据合并、分析和机器学习。')
 
     # 添加选项卡
     tab1, tab2, tab3 = st.tabs(["数据合并", "数据分析", "机器学习"])
@@ -125,7 +125,7 @@ def main():
             
     with tab3:
         # 模型训练
-        st.subheader('1.模型训练', divider='rainbow', help='算法自动将训练数据拆分为训练集和验证集, 训练过程中, 自动根据验证集评估模型。')
+        st.subheader('1.模型训练', divider='rainbow', help='模型在训练数据上自动训练，并自动评估。')
         # 设置上传文件组件
         train_data_file = st.file_uploader('选择训练数据:', type=['csv', 'xls', 'xlsx'], accept_multiple_files=False)
         train_data = pd.DataFrame()
@@ -158,23 +158,23 @@ def main():
                         st.write(predictor.leaderboard())
                         ep = st.expander('模型注释：')
                         ep.write('''
-                                model: 模型的名称。\n
-                                score_val: 模型验证分数, 即在验证集上的eval_metric值。注意: 分数总是更高对应更好。这意味着log_loss和root_mean_squared_error等指标将*-1, 得到负数。\n
-                                eval_metric: 用于计算分数的评估指标名称。\n
-                                pred_time_val: 端到端计算验证数据预测所需的推理/预测时间。等效于模型及其所有基础模型的所有pred_time_val_marginal值之和。\n
-                                fit_time: 端到端训练模型所需的拟合时间（如果模型是堆栈集成, 则包括基础模型）。等效于模型及其所有基础模型的所有fit_time_marginal值之和。\n
-                                pred_time_val_marginal: 计算验证数据的预测所需的推理/预测时间（忽略基础模型的推理/预测时间）。\n
-                                fit_time_marginal: 训练模型所需的拟合时间（忽略基础模型）。\n
-                                stack_level: 模型的堆栈级别。堆栈级别为N的模型可以将堆栈级别小于N的任何模型集作为输入, 堆栈级别为1的模型没有模型输入。\n
-                                can_infer: 模型是否能够对新数据执行推理/预测。如果为False, 则模型未保存、已删除或模型的祖先无法推理/预测。\n
-                                fit_order: 模型拟合的顺序。第一个模型拟合的fit_order=1, 第N个模型拟合的fit_order=N。在袋装集合的情况下, 该顺序对应于第一子模型拟合。\n
+                                model: 模型名称。\n
+                                score_val: 模型验证分数。分数更高对应更好。\n
+                                eval_metric: 分数的评估指标。\n
+                                pred_time_val: 端到端预测验证数据所需时间。\n
+                                fit_time: 端到端训练模型所需时间。\n
+                                pred_time_val_marginal: 预测验证数据所需时间。\n
+                                fit_time_marginal: 训练模型所需时间。\n
+                                stack_level: 模型的堆栈级别。\n
+                                can_infer: 模型是否能预测新数据。\n
+                                fit_order: 模型拟合的顺序。\n
                                 ''')
                         st.balloons()
                         st.success('训练完成!', icon="✅")
         else:
             pass               
         # 模型预测
-        st.subheader('2.模型预测', divider='rainbow', help='模型训练以后, 使用训练好的模型在新的数据上进行预测。')
+        st.subheader('2.模型预测', divider='rainbow', help='模型训练以后, 使用训练好的模型在新数据上进行预测。')
         data_new_file = st.file_uploader('选择预测数据: ', type=['csv', 'xls', 'xlsx'], accept_multiple_files=False)
         data_new = pd.DataFrame()
         if data_new_file is not None:
