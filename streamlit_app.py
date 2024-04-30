@@ -5,7 +5,7 @@ import numpy as np
 import ydata_profiling
 from streamlit_ydata_profiling import st_profile_report
 import datetime
-from autogluon.tabular import TabularDataset, TabularPredictor
+from autogluon.tabular import TabularPredictor
 
 def main():
     # 设置页面布局
