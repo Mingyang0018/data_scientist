@@ -14,10 +14,12 @@ def main():
     # 设置标题
     st.title('数据科学家', help='这是一个数据科学家工具, 用于数据合并、分析和机器学习。')
 
-    st.image('account.jpg', width=125, caption='感谢支持!')
+    # 设置图片
+    st.image(r'.\MyAPP\machinelearning\fig01.png', width=125, caption='感谢支持')
 
     # 添加选项卡
     tab1, tab2, tab3 = st.tabs(["数据合并", "数据分析", "机器学习"])
+
     # 根据选项卡选择, 显示不同内容
     with tab1:
         # 创建选择文件组件
@@ -42,7 +44,6 @@ def main():
 
             # 合并所有df
             df_concat = pd.concat([df_concat, df], ignore_index=True, join='outer', axis=0)
-        
         st.subheader('合并结果', divider='rainbow', help='这是文件上下合并后的结果。')
         if df_concat.empty:
             st.write('None')
@@ -60,13 +61,33 @@ def main():
                     # 按照去重列对df_concat进行去重
                     df_concat = df_concat.drop_duplicates(subset=[column], keep='first', ignore_index=True)
             
+            # 获取文件类型
+            file_ext = os.path.splitext(uploaded_files[0].name)[1]
             now = datetime.datetime.now()
             now_str = now.strftime('%Y%m%d%H%M%S')
-            file_name = f'data_concat_{now_str}.csv'
+
+            file_name = f'data_concat_{now_str}{file_ext}'
+            if file_ext == '.csv':
+                data = df_concat.to_csv(index=False)
+                # data = df_concat.to_csv(index=False).encode()
+                mime='text/csv'
+            elif file_ext in ['.xls', '.xlsx']:
+                # 为Excel文件创建一个临时路径
+                temp_file_path = f'temp_{file_name}'
+                df_concat.to_excel(temp_file_path, index=False)
+                mime = 'application/vnd.ms-excel'
+                # 读取文件内容
+                with open(temp_file_path, 'rb') as file:
+                    data = file.read()
+                # 删除临时文件
+                os.remove(temp_file_path)
+            else:
+                st.warning('请选择CSV或Excel!', icon="⚠️")
+            # 添加下载按钮
             btn = st.download_button(label='下载', 
-                                    data=df_concat.to_csv(index=False).encode(), 
+                                    data=data, 
                                     file_name=file_name, 
-                                    mime='text/csv')
+                                    mime=mime)
             st.write(df_concat)
             st.balloons()
                     
