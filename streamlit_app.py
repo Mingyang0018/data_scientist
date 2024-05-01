@@ -160,18 +160,16 @@ def main():
             ext = os.path.splitext(train_data_file.name)[1] if train_data_file else ''
             if ext == '.csv':
                 train_data = pd.read_csv(train_data_file)
-                if train_data.shape[0] <= 10000:
-                    isvalid_data = True
-                else:
-                    st.warning('请选择数据量<=10000的数据集!', icon="⚠️")
-                    st.stop()
+                if train_data.shape[0] > 10000:
+                    st.warning('数据量过大,仅加载前10000条数据!', icon="⚠️")
+                    train_data = train_data.iloc[:10000,:]
+
             elif ext in ['.xls', '.xlsx']:
                 train_data = pd.read_excel(train_data_file)
-                if train_data.shape[0] <= 10000:
-                    isvalid_data = True
-                else:
-                    st.warning('请选择数据量<=10000的数据集!', icon="⚠️")
-                    st.stop()
+                if train_data.shape[0] > 10000:
+                    st.warning('数据量过大,仅加载前10000条数据!', icon="⚠️")
+                    train_data = train_data.iloc[:10000,:]
+
             else:
                 st.warning('请选择CSV或Excel!', icon="⚠️")
             st.write(train_data)
@@ -216,8 +214,14 @@ def main():
             ext = os.path.splitext(data_new_file.name)[1] if data_new_file else ''
             if ext == '.csv':
                 data_new = pd.read_csv(data_new_file)
+                if data_new.shape[0] > 1000000:
+                    st.warning('数据量过大,仅加载前1000000条数据!', icon="⚠️")
+                    data_new = data_new.iloc[:1000000,:]
             elif ext in ['.xls', '.xlsx']:
                 data_new = pd.read_excel(data_new_file)
+                if data_new.shape[0] > 1000000:
+                    st.warning('数据量过大,仅加载前1000000条数据!', icon="⚠️")
+                    data_new = data_new.iloc[:1000000,:]
             else:
                 st.warning('请选择CSV或Excel!', icon="⚠️")
             st.write(data_new)
