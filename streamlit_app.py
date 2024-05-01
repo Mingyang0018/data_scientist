@@ -152,8 +152,7 @@ def main():
         # 设置上传文件组件
         train_data_file = st.file_uploader('选择训练数据:', type=['csv', 'xls', 'xlsx'], accept_multiple_files=False)
         train_data = pd.DataFrame()
-        # 定义数据是否有效
-        isvalid_data = False
+
         # 根据是否选择了文件显示消息
         if train_data_file is not None:
             # 获取文件后缀
@@ -176,7 +175,7 @@ def main():
             
         # 设置标签
         label_col = None
-        if not train_data.empty and isvalid_data:
+        if not train_data.empty:
             label_col = st.selectbox('选择标签列:', train_data.columns)
             # 开始训练
             if label_col is not None:
