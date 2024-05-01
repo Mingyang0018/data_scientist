@@ -15,7 +15,7 @@ def main():
     st.title('数据科学家', help='这是一个数据科学家工具, 用于数据合并、分析和机器学习。')
 
     # 设置图片
-    st.image(r'.\MyAPP\machinelearning\fig01.png', width=125, caption='感谢支持')
+    st.image('account.jpg', width=125, caption='感谢支持')
 
     # 添加选项卡
     tab1, tab2, tab3 = st.tabs(["数据合并", "数据分析", "机器学习"])
