@@ -15,7 +15,7 @@ def main():
     st.title('数据科学家', help='这是一个数据科学家工具, 用于数据合并、分析和机器学习。')
 
     # 设置图片
-    st.image('account.jpg', width=125, caption='感谢支持')
+    st.image('account.jpg', width=125, caption='感谢支持!')
 
     # 添加选项卡
     tab1, tab2, tab3 = st.tabs(["数据合并", "数据分析", "机器学习"])
@@ -152,21 +152,33 @@ def main():
         # 设置上传文件组件
         train_data_file = st.file_uploader('选择训练数据:', type=['csv', 'xls', 'xlsx'], accept_multiple_files=False)
         train_data = pd.DataFrame()
+        # 定义数据是否有效
+        isvalid_data = False
         # 根据是否选择了文件显示消息
         if train_data_file is not None:
             # 获取文件后缀
             ext = os.path.splitext(train_data_file.name)[1] if train_data_file else ''
             if ext == '.csv':
                 train_data = pd.read_csv(train_data_file)
+                if train_data.shape[0] <= 10000:
+                    isvalid_data = True
+                else:
+                    st.warning('请选择数据量<=10000的数据集!', icon="⚠️")
+                    st.stop()
             elif ext in ['.xls', '.xlsx']:
                 train_data = pd.read_excel(train_data_file)
+                if train_data.shape[0] <= 10000:
+                    isvalid_data = True
+                else:
+                    st.warning('请选择数据量<=10000的数据集!', icon="⚠️")
+                    st.stop()
             else:
                 st.warning('请选择CSV或Excel!', icon="⚠️")
             st.write(train_data)
             
         # 设置标签
         label_col = None
-        if not train_data.empty:
+        if not train_data.empty and isvalid_data:
             label_col = st.selectbox('选择标签列:', train_data.columns)
             # 开始训练
             if label_col is not None:
