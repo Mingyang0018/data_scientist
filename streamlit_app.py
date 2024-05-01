@@ -15,7 +15,7 @@ def main():
     st.title('数据科学家', help='这是一个数据科学家工具, 用于数据合并、分析和机器学习。')
 
     # 设置图片
-    st.image('account.jpg', width=125, caption='感谢支持!')
+    st.image('account.jpg', width=125, caption='感谢支持')
 
     # 添加选项卡
     tab1, tab2, tab3 = st.tabs(["数据合并", "数据分析", "机器学习"])
@@ -159,15 +159,15 @@ def main():
             ext = os.path.splitext(train_data_file.name)[1] if train_data_file else ''
             if ext == '.csv':
                 train_data = pd.read_csv(train_data_file)
-                if train_data.shape[0] > 5000:
-                    st.warning('数据量过大,仅加载前5000条数据!', icon="⚠️")
-                    train_data = train_data.iloc[:5000,:]
+                if train_data.shape[0] > 10000:
+                    st.warning('数据量过大,仅加载前10000条数据!', icon="⚠️")
+                    train_data = train_data.iloc[:10000,:]
 
             elif ext in ['.xls', '.xlsx']:
                 train_data = pd.read_excel(train_data_file)
-                if train_data.shape[0] > 5000:
-                    st.warning('数据量过大,仅加载前5000条数据!', icon="⚠️")
-                    train_data = train_data.iloc[:5000,:]
+                if train_data.shape[0] > 10000:
+                    st.warning('数据量过大,仅加载前10000条数据!', icon="⚠️")
+                    train_data = train_data.iloc[:10000,:]
 
             else:
                 st.warning('请选择CSV或Excel!', icon="⚠️")
@@ -201,8 +201,8 @@ def main():
                                 can_infer: 模型是否能预测新数据。\n
                                 fit_order: 模型拟合的顺序。\n
                                 ''')
-                        st.balloons()
                         st.success('训练完成!', icon="✅")
+                        st.balloons()
         else:
             pass               
         # 模型预测
@@ -213,14 +213,14 @@ def main():
             ext = os.path.splitext(data_new_file.name)[1] if data_new_file else ''
             if ext == '.csv':
                 data_new = pd.read_csv(data_new_file)
-                if data_new.shape[0] > 100000:
-                    st.warning('数据量过大,仅加载前100000条数据!', icon="⚠️")
-                    data_new = data_new.iloc[:100000,:]
+                if data_new.shape[0] > 1000000:
+                    st.warning('数据量过大,仅加载前1000000条数据!', icon="⚠️")
+                    data_new = data_new.iloc[:1000000,:]
             elif ext in ['.xls', '.xlsx']:
                 data_new = pd.read_excel(data_new_file)
-                if data_new.shape[0] > 100000:
-                    st.warning('数据量过大,仅加载前100000条数据!', icon="⚠️")
-                    data_new = data_new.iloc[:100000,:]
+                if data_new.shape[0] > 1000000:
+                    st.warning('数据量过大,仅加载前1000000条数据!', icon="⚠️")
+                    data_new = data_new.iloc[:1000000,:]
             else:
                 st.warning('请选择CSV或Excel!', icon="⚠️")
             st.write(data_new)
@@ -248,8 +248,33 @@ def main():
                             label_name = label+"_pred"
                             data_new[label_name] = y_pred
                             st.write(data_new)
-                            st.balloons()
                             st.success('预测完成!', icon="✅")
+                            st.balloons()
+
+                            now = datetime.datetime.now()
+                            now_str = now.strftime('%Y%m%d%H%M%S')
+
+                            file_name = f'data_predict_{now_str}{ext}'
+                            if ext == '.csv':
+                                data = data_new.to_csv(index=False)
+                                mime='text/csv'
+                            elif ext in ['.xls', '.xlsx']:
+                                # 为Excel文件创建一个临时路径
+                                temp_file_path = f'temp_{file_name}'
+                                data_new.to_excel(temp_file_path, index=False)
+                                mime = 'application/vnd.ms-excel'
+                                # 读取文件内容
+                                with open(temp_file_path, 'rb') as file:
+                                    data = file.read()
+                                # 删除临时文件
+                                os.remove(temp_file_path)
+                            else:
+                                st.warning('请选择CSV或Excel!', icon="⚠️")
+                            # 添加下载按钮
+                            btn = st.download_button(label='下载', 
+                                                    data=data, 
+                                                    file_name=file_name, 
+                                                    mime=mime)
                             st.stop()
                 
 if __name__ == '__main__':
