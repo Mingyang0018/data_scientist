@@ -1,5 +1,5 @@
 # streamlit_APP_dataScientist
-这是一个数据科学家工具, 可以用于数据合并、分析和机器学习。
+这是一个数据科学工具, 可以用于数据合并、分析和机器学习。
 
 ## 访问网址
 https://datascientist-aebetwymykifmpbxthvrxk.streamlit.app/
