@@ -12,7 +12,7 @@ def main():
     st.set_page_config(layout="wide")
 
     # 设置标题
-    st.title('数据科学家', help='这是一个数据科学家工具, 用于数据合并、分析和机器学习。')
+    st.title('数据科学家', help='这是一个数据科学工具, 用于数据合并、分析和机器学习。')
 
     # 设置图片
     st.image('account.jpg', width=125, caption='感谢支持')
