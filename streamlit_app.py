@@ -275,7 +275,7 @@ def main():
                                                     data=data, 
                                                     file_name=file_name, 
                                                     mime=mime)
-                            st.stop()
+                            # st.stop()
                 
 if __name__ == '__main__':
     main()
