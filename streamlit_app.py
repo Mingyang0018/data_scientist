@@ -135,7 +135,7 @@ def main():
                     st.stop()
                     
             #如果数据量过大, 开启简化模式
-            minimal = True if (df.shape[0] > 10_000 or df.shape[0]*df.shape[1] > 120_000) else False
+            minimal = True if (df.shape[0] > 10_000 or df.shape[0]*df.shape[1] > 100_000) else False
             report = ydata_profiling.ProfileReport(df, title=title, explorative=True, minimal=minimal, tsmode=tsmode, sortby=sortby)
             
             # 添加下载按钮
